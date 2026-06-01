@@ -55,9 +55,11 @@ export default function Navbar() {
             Sign In
           </Link>
           
+          <Link href={`sign-up`}>
           <button className="rounded-xl bg-[#4f46e5] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 hover:bg-[#4338ca] transition-all active:scale-95">
             Get Started
           </button>
+          </Link>
         </nav>
 
         {/* Mobile Menu Button */}
