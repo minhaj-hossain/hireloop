@@ -17,8 +17,8 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="w-full bg-[#0d0d0d] px-4 py-4 md:px-8">
-      <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl bg-[#141414]/80 px-6 py-3 backdrop-blur-md border border-white/5">
+    <header className="w-full bg-black">
+      <div className="relative mx-auto lg:mt-4 flex max-w-7xl items-center justify-between rounded-2xl bg-[#141414]/80 px-6 py-3 backdrop-blur-md border border-white/5">
         
         {/* Logo Section */}
         <Link href="/" className="flex items-center gap-2 select-none">
