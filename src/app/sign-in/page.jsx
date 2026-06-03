@@ -23,16 +23,14 @@ export default function SignInPage() {
         callbackURL: "/",
         /**
          * remember the user session after the browser is closed. 
-         * @default true
-         */
-        rememberMe: false
+        //  * @default true
+        //  */
+        // rememberMe: false
 }, {
     onSuccess: ()=> {
         // alert('it worked successfully')
     }
 })
-
-
 
 
   };
