@@ -3,8 +3,11 @@
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
+
+  const router = useRouter()
   
   const handleSignUp = async(e) => {
     e.preventDefault();
@@ -14,15 +17,18 @@ export default function SignUpPage() {
     const email = formData.get("email");
     const password = formData.get("password");
     const termsAccepted = formData.get("termsAccepted");
+    const role = formData.get("role");
+
 
     // Process structured registration data here
-    console.log({ firstName, lastName, email, password, termsAccepted });
+    // console.log({ firstName, lastName, email, password, termsAccepted });
+    const displayName = [firstName, lastName].filter(Boolean).join(" ");
 
     const { data, error } = await authClient.signUp.email({
         email, // user email address
         password, // user password -> min 8 characters by default
-        firstName,
-        lastName, // user display name
+        name: displayName,
+        role, // optional display name constructed from first and last name// user display name
         // callbackURL: "/dashboard" // A URL to redirect to after the user verifies their email (optional)
     }, {
         onRequest: (ctx) => {
@@ -31,6 +37,7 @@ export default function SignUpPage() {
         onSuccess: (ctx) => {
             //redirect to the dashboard or sign in page
             alert('working')
+            router.push("/sign-in");
         },
         onError: (ctx) => {
             // display the error message
@@ -105,6 +112,31 @@ export default function SignUpPage() {
                 placeholder="Hossain"
                 className="w-full bg-[#121214]/60 border border-zinc-800/80 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 outline-none focus:border-zinc-700 focus:bg-[#121214] transition-all"
               />
+            </div>
+          </div>
+
+         <div className="flex flex-col gap-2">
+            <label className="text-xs font-medium text-zinc-400">I want to join as a:</label>
+            <div className="grid grid-cols-2 gap-3">
+              
+              {/* Job Seeker Option */}
+              <label className="relative flex items-center justify-between p-3 rounded-xl bg-[#121214]/60 border border-zinc-800 has-checked:border-indigo-500 has-checked:bg-indigo-500/5 cursor-pointer transition-all group">
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-zinc-200 group-hover:text-white">Job Seeker</span>
+                  <span className="text-[10px] text-zinc-500[">Find work</span>
+                </div>
+                <input type="radio" name="role" value="seeker" defaultChecked className="w-4 h-4 accent-indigo-500 cursor-pointer" />
+              </label>
+
+              {/* Recruiter Option */}
+              <label className="relative flex items-center justify-between p-3 rounded-xl bg-[#121214]/60 border border-zinc-800 has-checked:border-indigo-500 has-checked:bg-indigo-500/5 cursor-pointer transition-all group">
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-zinc-200 group-hover:text-white">Recruiter</span>
+                  <span className="text-[10px] text-zinc-500">Post jobs</span>
+                </div>
+                <input type="radio" name="role" value="recruiter" className="w-4 h-4 accent-indigo-500 cursor-pointer" />
+              </label>
+
             </div>
           </div>
 
