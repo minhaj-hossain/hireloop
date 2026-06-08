@@ -1,8 +1,12 @@
 import React from "react";
+import { toast } from "sonner";
 
 export default function StatCard({ title, value, icon: Icon }) {
   return (
-    <div className="flex flex-col justify-between p-6 bg-[#141416]/40 border border-zinc-900 rounded-2xl w-full transition-all duration-200 hover:border-zinc-800">
+    <div
+      onClick={() => toast.success("Event has been created")}
+      className="flex flex-col justify-between p-6 bg-[#141416]/40 border border-zinc-900 rounded-2xl w-full transition-all duration-200 hover:border-zinc-800"
+    >
       {/* Icon Wrapper Square */}
       <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#1d1d20] border border-zinc-800 text-zinc-400">
         {Icon && <Icon className="h-5 w-5" />}

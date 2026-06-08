@@ -3,10 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
-  
-  const handleLogin = async(e) => {
+  const router = useRouter();
+
+  const { data: session } = authClient.useSession();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email");
@@ -14,30 +18,35 @@ export default function SignInPage() {
     const rememberMe = formData.get("rememberMe");
 
     // Process credentials here
-    console.log({ email, password, rememberMe });
+    // console.log({ email, password, rememberMe });
 
-    const { data, error } = await authClient.signIn.email({
+    const { data, error } = await authClient.signIn.email(
+      {
         email,
         password,
 
-        callbackURL: "/",
+        // callbackURL: "/",
         /**
          * remember the user session after the browser is closed. 
         //  * @default true
         //  */
         // rememberMe: false
-}, {
-    onSuccess: ()=> {
-        // alert('it worked successfully')
-    }
-})
-
-
+      },
+      {
+        onSuccess: () => {
+          if (session?.user?.role === "recruiter") {
+            router.push("/dashboard/recruiter");
+          } else {
+            router.push("/dashboard/seeker");
+          }
+          // alert('it worked successfully')
+        },
+      },
+    );
   };
 
   return (
     <main className="relative min-h-screen w-full bg-[#030303] text-white flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 overflow-hidden selection:bg-indigo-500/30">
-      
       {/* INTEGRATED BACKGROUND GRAPHIC FRAME (Reusing cta-bg mesh dome style) */}
       <div className="absolute inset-x-0 top-0 mx-auto max-w-5xl w-full h-full pointer-events-none select-none z-0">
         <div className="absolute top-[20%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] aspect-video rounded-full bg-indigo-600/10 blur-[120px]" />
@@ -56,7 +65,6 @@ export default function SignInPage() {
 
       {/* RE-CENTERED SIGN IN CARD */}
       <div className="relative w-full max-w-110 bg-[#0b0b0c]/90 border border-zinc-900 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl shadow-black/80 z-10 flex flex-col">
-        
         {/* Brand Header Identity */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="flex items-center gap-1.5 mb-3 font-bold text-xl tracking-tight">
@@ -73,10 +81,12 @@ export default function SignInPage() {
 
         {/* AUTHENTICATION DATA FORM */}
         <form onSubmit={handleLogin} className="space-y-5 flex-1">
-          
           {/* Email Address Block */}
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="email" className="text-xs font-medium text-zinc-400 tracking-wide">
+            <label
+              htmlFor="email"
+              className="text-xs font-medium text-zinc-400 tracking-wide"
+            >
               Email Address
             </label>
             <input
@@ -92,11 +102,14 @@ export default function SignInPage() {
           {/* User Password Block */}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="text-xs font-medium text-zinc-400 tracking-wide">
+              <label
+                htmlFor="password"
+                className="text-xs font-medium text-zinc-400 tracking-wide"
+              >
                 Password
               </label>
-              <Link 
-                href="/forgot-password" 
+              <Link
+                href="/forgot-password"
                 className="text-[11px] font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
               >
                 Forgot Password?
@@ -120,7 +133,10 @@ export default function SignInPage() {
               name="rememberMe"
               className="w-4 h-4 rounded-md bg-[#121214] border-zinc-800 text-indigo-600 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-indigo-500"
             />
-            <label htmlFor="rememberMe" className="text-xs font-medium text-zinc-400 select-none cursor-pointer">
+            <label
+              htmlFor="rememberMe"
+              className="text-xs font-medium text-zinc-400 select-none cursor-pointer"
+            >
               Remember me for 30 days
             </label>
           </div>
@@ -162,11 +178,13 @@ export default function SignInPage() {
         {/* Register Account Route Footnote */}
         <p className="text-center text-xs text-zinc-500 mt-6">
           Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="text-zinc-300 hover:text-white font-medium hover:underline">
+          <Link
+            href="/sign-up"
+            className="text-zinc-300 hover:text-white font-medium hover:underline"
+          >
             Create one free
           </Link>
         </p>
-
       </div>
     </main>
   );

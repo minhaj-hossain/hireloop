@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, ArrowRight,ChartLine, Thunderbolt } from "@gravity-ui/icons";
+import { Plus, ArrowRight, ChartLine, Thunderbolt } from "@gravity-ui/icons";
 
 import { FaCrown } from "react-icons/fa";
 
@@ -56,7 +56,6 @@ export default function PricingSection() {
   return (
     <section className="w-full bg-[#000000] text-white py-20 px-4 sm:px-6 md:px-8 lg:px-12 selection:bg-indigo-500/30">
       <div className="mx-auto max-w-7xl flex flex-col items-center">
-        
         {/* Top Header Label Badge */}
         <div className="flex items-center gap-2 mb-4">
           <span className="w-1 h-1 bg-[#3b5bfd] rounded-sm" />
@@ -115,8 +114,12 @@ export default function PricingSection() {
                   {/* Top Header Card Block */}
                   <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 flex items-center justify-center rounded-xl border ${plan.iconBg}`}>
-                        <IconComponent className={`w-4.5 h-4.5 ${plan.iconColor}`} />
+                      <div
+                        className={`w-9 h-9 flex items-center justify-center rounded-xl border ${plan.iconBg}`}
+                      >
+                        <IconComponent
+                          className={`w-4.5 h-4.5 ${plan.iconColor}`}
+                        />
                       </div>
                       <h3 className="text-lg font-medium text-zinc-200 tracking-tight">
                         {plan.name}
@@ -124,7 +127,9 @@ export default function PricingSection() {
                     </div>
                     {/* Dynamic Pricing String Text */}
                     <div className="flex items-baseline text-white">
-                      <span className="text-3xl font-bold tracking-tight">${plan.price}</span>
+                      <span className="text-3xl font-bold tracking-tight">
+                        ${plan.price}
+                      </span>
                       <span className="text-xs text-zinc-500 ml-1">/month</span>
                     </div>
                   </div>
@@ -137,7 +142,10 @@ export default function PricingSection() {
                   {/* Features List Group */}
                   <ul className="flex flex-col gap-4 mb-10">
                     {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-sm text-zinc-400">
+                      <li
+                        key={idx}
+                        className="flex items-start gap-3 text-sm text-zinc-400"
+                      >
                         <div className="hrink-0 w-5 h-5 flex items-center justify-center rounded bg-zinc-900/80 border border-zinc-800/60 mt-0.5">
                           <Plus className="w-3 h-3 text-zinc-500" />
                         </div>
@@ -146,9 +154,25 @@ export default function PricingSection() {
                     ))}
                   </ul>
                 </div>
-
                 {/* Submit Action Callout CTA Button */}
-                <button
+                <form action="/api/checkout_sessions" method="POST">
+                  <section>
+                    <button
+                      type="submit"
+                      role="link"
+                      className={`w-full flex items-center justify-between rounded-xl px-5 py-3.5 text-sm font-medium transition-all group active:scale-[0.99] ${
+                        plan.isPopular
+                          ? "bg-white text-black hover:bg-zinc-200"
+                          : "bg-[#1f1f1f] text-zinc-200 hover:bg-zinc-800 hover:text-white"
+                      }`}
+                    >
+                      <span>Choose This Plan</span>
+                      <ArrowRight className="w-4 h-4 text-current group-hover:translate-x-0.5 transition-transform" />
+                    </button>
+                  </section>
+                </form>
+
+                {/* <button
                   className={`w-full flex items-center justify-between rounded-xl px-5 py-3.5 text-sm font-medium transition-all group active:scale-[0.99] ${
                     plan.isPopular
                       ? "bg-white text-black hover:bg-zinc-200"
@@ -157,12 +181,11 @@ export default function PricingSection() {
                 >
                   <span>Choose This Plan</span>
                   <ArrowRight className="w-4 h-4 text-current group-hover:translate-x-0.5 transition-transform" />
-                </button>
+                </button> */}
               </div>
             );
           })}
         </div>
-
       </div>
     </section>
   );

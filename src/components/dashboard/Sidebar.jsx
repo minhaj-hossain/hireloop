@@ -4,20 +4,24 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { 
-  LayoutCellsLarge, 
-  Briefcase, 
+import {
+  LayoutCellsLarge,
+  Briefcase,
   Gear,
   Envelope,
   FolderOpen,
-  LayoutSideContentLeft, 
-  Xmark 
+  LayoutSideContentLeft,
+  Xmark,
 } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
 
 const menuItems = [
   { name: "Dashboard", href: "/dashboard/recruiter", icon: LayoutCellsLarge },
-  { name: "My Company", href: "/dashboard/recruiter/company", icon: FolderOpen },
+  {
+    name: "My Company",
+    href: "/dashboard/recruiter/company",
+    icon: FolderOpen,
+  },
   { name: "Manage Jobs", href: "/manage-jobs", icon: Briefcase },
   { name: "Applications", href: "/applications", icon: Envelope },
   { name: "Settings", href: "/settings", icon: Gear },
@@ -32,10 +36,12 @@ export default function Sidebar() {
     <>
       {/* 1. FIXED TOP STICKY BAR FOR MOBILE REVENUE FRAMEWORK */}
       <div className="md:hidden flex items-center justify-between w-full bg-[#0a0a0c] border-b border-zinc-900 px-6  h-16 z-50">
-        <span className="text-xl font-bold tracking-tight text-white select-none">
-          Hire<span className="text-[#3b5bfd]">Loop</span>
-        </span>
-        
+        <Link href={"/"}>
+          <span className="text-xl font-bold tracking-tight text-white select-none">
+            Hire<span className="text-[#3b5bfd]">Loop</span>
+          </span>
+        </Link>
+
         {/* HAMBURGER TRIGGER TOGGLE COMPONENT */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -53,9 +59,11 @@ export default function Sidebar() {
       {/* 2. DOCKED PERMANENT SIDEBAR DESKTOP MATRIX PANELS */}
       <aside className="hidden md:flex flex-col w-64  bg-[#0a0a0c] border-r border-zinc-900 h-screen pt-8 pb-6 z-30">
         <div className="px-7 select-none">
-          <span className="text-2xl font-bold tracking-tight text-white">
-            Hire<span className="text-[#3b5bfd]">Loop</span>
-          </span>
+          <Link href={"/"}>
+            <span className="text-2xl font-bold tracking-tight text-white">
+              Hire<span className="text-[#3b5bfd]">Loop</span>
+            </span>
+          </Link>
         </div>
 
         {/* Desktop Profile Status Card */}
@@ -108,7 +116,9 @@ export default function Sidebar() {
                 {isActive && (
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded-l-md" />
                 )}
-                <Icon className={`h-5 w-5 ${isActive ? "text-white" : "text-zinc-500 group-hover:text-zinc-400"}`} />
+                <Icon
+                  className={`h-5 w-5 ${isActive ? "text-white" : "text-zinc-500 group-hover:text-zinc-400"}`}
+                />
                 {item.name}
               </Link>
             );
@@ -120,7 +130,9 @@ export default function Sidebar() {
       {/* Dimmed backdrop backdrop click controller shield */}
       <div
         className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300 ${
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setIsOpen(false)}
       />
@@ -182,7 +194,9 @@ export default function Sidebar() {
                 {isActive && (
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded-l-md" />
                 )}
-                <Icon className={`h-5 w-5 ${isActive ? "text-white" : "text-zinc-500 group-hover:text-zinc-400"}`} />
+                <Icon
+                  className={`h-5 w-5 ${isActive ? "text-white" : "text-zinc-500 group-hover:text-zinc-400"}`}
+                />
                 {item.name}
               </Link>
             );
