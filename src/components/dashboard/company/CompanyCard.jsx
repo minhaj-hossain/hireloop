@@ -15,7 +15,15 @@ const getStatusStyles = (status) => {
 };
 
 export default function CompanyCard({ company }) {
-  const { name, category, description, location, range, website, status, logo } = company;
+  const {
+    name,
+    category,
+    location,
+    range,
+    website,
+    status,
+    iamge: logo,
+  } = company;
 
   return (
     <div className="bg-[#141416]/40 border border-zinc-900 rounded-2xl p-6 flex flex-col justify-between h-90 hover:border-zinc-800/80 transition-all duration-200">
@@ -26,28 +34,40 @@ export default function CompanyCard({ company }) {
             {/* Logo Wrapper */}
             <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center overflow-hidden shrink-0 border border-zinc-800">
               {logo ? (
-                <Image src={logo} alt={`${name} logo`} className="w-8 h-8 object-contain" width={32} height={32} />
+                <Image
+                  src={logo}
+                  alt={`${name} logo`}
+                  className="w-8 h-8 object-contain"
+                  width={32}
+                  height={32}
+                />
               ) : (
-                <span className="text-zinc-900 font-bold text-lg">{name.charAt(0)}</span>
+                <span className="text-zinc-900 font-bold text-lg">
+                  {name.charAt(0)}
+                </span>
               )}
             </div>
-            
+
             <div className="flex flex-col min-w-0">
-              <h3 className="text-base font-bold text-white truncate leading-snug">{name}</h3>
-              <p className="text-xs text-zinc-500 font-medium tracking-wide mt-0.5">{category}</p>
+              <h3 className="text-base font-bold text-white truncate leading-snug">
+                {name}
+              </h3>
+              <p className="text-xs text-zinc-500 font-medium tracking-wide mt-0.5">
+                {category}
+              </p>
             </div>
           </div>
 
           {/* Verification Badge */}
-          <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${getStatusStyles(status)}`}>
+          <span
+            className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${getStatusStyles(status)}`}
+          >
             {status}
           </span>
         </div>
 
         {/* Company Pitch Description Text */}
-        <p className="text-sm text-zinc-400 font-normal leading-relaxed mt-5 line-clamp-3">
-          {description}
-        </p>
+        <p className="text-sm text-zinc-400 font-normal leading-relaxed mt-5 line-clamp-3"></p>
       </div>
 
       {/* Meta Footer Properties Block */}
@@ -64,9 +84,9 @@ export default function CompanyCard({ company }) {
         </div>
 
         {/* Website Action Launcher Link */}
-        <Link 
-          href={website || "#"} 
-          target="_blank" 
+        <Link
+          href={website || "#"}
+          target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-300 hover:text-white transition-colors group pt-1"
         >

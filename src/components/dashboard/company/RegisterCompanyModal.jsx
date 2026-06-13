@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Xmark, Pin, ArrowDownToSquare, ChevronDown } from "@gravity-ui/icons";
+import { FiLink2 } from "react-icons/fi";
+import { createCompany } from "@/lib/actions/companies";
 
 export default function RegisterCompanyModal({ isOpen, onClose }) {
-
-const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     category: "Technology",
     website: "",
     location: "",
     range: "1-10 employees",
+    image: "",
     description: "",
   });
 
@@ -21,30 +23,44 @@ const [formData, setFormData] = useState({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onClose();
+    // const res = await fetch(
+    //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/company`,
+    //   {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(formData),
+    //   },
+    // );
+    // const data = await res.json();
+
+    const result = await createCompany(formData);
+
+    if (result.success) onClose();
   };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop Overlay Blur */}
-      <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity" 
-        onClick={onClose} 
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+        onClick={onClose}
       />
 
       {/* Main Modal Panel Box */}
       <div className="relative bg-[#141416] border border-zinc-800 rounded-2xl w-full max-w-155 overflow-hidden shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-150">
-        
         {/* Header Layout Section */}
         <div className="p-6 border-b border-zinc-900 flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-bold text-white tracking-tight">Register New Company</h2>
+            <h2 className="text-lg font-bold text-white tracking-tight">
+              Register New Company
+            </h2>
             <p className="text-xs text-zinc-500 mt-1">
               Enter your business details to start hiring on HireLoop.
             </p>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="text-zinc-500 hover:text-white p-1 rounded-lg transition-colors"
           >
@@ -55,11 +71,12 @@ const [formData, setFormData] = useState({
         {/* Form Body Fields Context Container */}
         <form onSubmit={handleSubmit} className="flex-1">
           <div className="p-6 space-y-5 text-sm">
-            
             {/* Row 1: Company Name & Industry */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="block text-xs font-semibold text-zinc-400">Company Name</label>
+                <label className="block text-xs font-semibold text-zinc-400">
+                  Company Name
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -72,7 +89,9 @@ const [formData, setFormData] = useState({
               </div>
 
               <div className="space-y-2">
-                <label className="block text-xs font-semibold text-zinc-400">Industry / Category</label>
+                <label className="block text-xs font-semibold text-zinc-400">
+                  Industry / Category
+                </label>
                 <div className="relative">
                   <select
                     name="category"
@@ -93,7 +112,9 @@ const [formData, setFormData] = useState({
             {/* Row 2: Website URL & Location */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="block text-xs font-semibold text-zinc-400">Website URL</label>
+                <label className="block text-xs font-semibold text-zinc-400">
+                  Website URL
+                </label>
                 <div className="flex rounded-xl bg-[#1c1c1e]/60 border border-zinc-800/80 focus-within:border-zinc-700 overflow-hidden transition-colors">
                   <span className="bg-[#18181b]/60 px-3 py-3 text-zinc-500 border-r border-zinc-800/60 select-none">
                     https://
@@ -110,7 +131,9 @@ const [formData, setFormData] = useState({
               </div>
 
               <div className="space-y-2">
-                <label className="block text-xs font-semibold text-zinc-400">Location</label>
+                <label className="block text-xs font-semibold text-zinc-400">
+                  Location
+                </label>
                 <div className="relative flex items-center">
                   <Pin className="absolute left-4 h-4 w-4 text-zinc-500 pointer-events-none" />
                   <input
@@ -129,7 +152,9 @@ const [formData, setFormData] = useState({
             {/* Row 3: Employee Range & Logo Upload Box */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="block text-xs font-semibold text-zinc-400">Employee Count Range</label>
+                <label className="block text-xs font-semibold text-zinc-400">
+                  Employee Count Range
+                </label>
                 <div className="relative">
                   <select
                     name="range"
@@ -141,13 +166,35 @@ const [formData, setFormData] = useState({
                     <option value="11-50 employees">11-50 employees</option>
                     <option value="51-200 employees">51-200 employees</option>
                     <option value="201-500 employees">201-500 employees</option>
-                    <option value="501-1000 employees">501-1000 employees</option>
+                    <option value="501-1000 employees">
+                      501-1000 employees
+                    </option>
                   </select>
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 pointer-events-none" />
                 </div>
               </div>
 
               <div className="space-y-2">
+                <label className="block text-xs font-semibold text-zinc-400">
+                  Company Logo URL
+                </label>
+                <div className="flex items-center gap-2 bg-transparent border border-zinc-800 rounded-xl p-2 focus-within:border-zinc-700">
+                  <div className="w-10 h-10 rounded-lg bg-[#1c1c1e]/60 border border-zinc-800 flex items-center justify-center text-zinc-400">
+                    <FiLink2 className="h-4 w-4" />{" "}
+                    {/* Swap with Link2, Link, or Globe icon */}
+                  </div>
+                  <input
+                    name="image"
+                    value={formData.image}
+                    onChange={handleChange}
+                    type="url"
+                    placeholder="https://example.com/logo.png"
+                    className="w-full bg-transparent text-xs text-zinc-300 placeholder-zinc-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* <div className="space-y-2">
                 <label className="block text-xs font-semibold text-zinc-400">Company Logo</label>
                 <label className="flex items-center gap-3 bg-transparent border border-dashed border-zinc-800 hover:border-zinc-700 rounded-xl p-2 cursor-pointer transition-colors group">
                   <div className="w-10 h-10 rounded-lg bg-[#1c1c1e]/60 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white transition-colors">
@@ -159,12 +206,13 @@ const [formData, setFormData] = useState({
                   </div>
                   <input type="file" accept="image/*" className="hidden" />
                 </label>
-              </div>
+              </div>*/}
             </div>
-
             {/* Row 4: Brief Description Paragraph Area */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-zinc-400">Brief Description</label>
+              <label className="block text-xs font-semibold text-zinc-400">
+                Brief Description
+              </label>
               <textarea
                 name="description"
                 rows={4}
@@ -174,7 +222,6 @@ const [formData, setFormData] = useState({
                 className="w-full bg-[#1c1c1e]/60 border border-zinc-800/80 rounded-xl p-4 text-white placeholder-zinc-600 focus:outline-hidden focus:border-zinc-700 transition-colors resize-none"
               />
             </div>
-
           </div>
 
           {/* Action Control Button Footer Pane */}
@@ -194,7 +241,6 @@ const [formData, setFormData] = useState({
             </button>
           </div>
         </form>
-
       </div>
     </div>
   );
